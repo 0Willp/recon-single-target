@@ -14,20 +14,6 @@ A modular, automated, and silent subdomain enumeration pipeline designed to extr
 4. **Web Probing:** Pipes the clean list into `httpx` to verify active HTTP/HTTPS ports.
 5. **Clean up:** Automatically deletes tool-specific temporary files, leaving your workspace organized.
 
-```bash
-# Clone the repository
-git clone https://github.com/0Willp/recon-single-target.git
-
-# Enter the directory
-cd recon-single-target
-
-# Grant execution permission
-chmod +x recon-single-target
-
-python3 recon_single.py -d testphp.vulnweb.com
-
-```
-
 
 ## 📂 Directory Structure
 
@@ -42,6 +28,25 @@ This script assumes you have a professional Bug Bounty VPS structure. It will au
 ├── tools/           
 └── wordlists/
 ```
+
+## 🛠️ Prerequisites
+
+Ensure the following tools are installed and available in your system's `$PATH`:
+
+* [Subfinder](https://github.com/projectdiscovery/subfinder)
+* [Assetfinder](https://github.com/tomnomnom/assetfinder)
+* [Findomain](https://github.com/Findomain/Findomain)
+* [Amass](https://github.com/owasp-amass/amass)
+* [Httpx](https://github.com/projectdiscovery/httpx)
+* [Notify](https://github.com/projectdiscovery/notify) 
+
+## 🚀 Usage
+Execute the script passing the argument -d, the domain to be enumerated:
+```text
+python3 recon_single.py -d hackerone.com
+```
+
+
 ## ⚖️ Legal Disclaimer
 This project is for educational and ethical security research purposes only. The author is not responsible for any misuse of the tools installed by this script. Only target systems within authorized scope.
 
