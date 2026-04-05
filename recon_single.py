@@ -39,13 +39,11 @@ def main():
     print(f"\n{G}[+]{RST} Starting enumeration for: {domain}")
     print(f"{G}[+]{RST} Output directory: {base_dir}")
 
-    # Arquivos temporários
     subfinder_out = base_dir / "temp_subfinder.txt"
     assetfinder_out = base_dir / "temp_assetfinder.txt"
     findomain_out = base_dir / "temp_findomain.txt"
     amass_out = base_dir / "temp_amass.txt"
 
-    # Arquivos Finais
     final_merged = base_dir / "01_all_subs_merged.txt"
     final_httpx = base_dir / "02_alive_httpx.txt"
 
@@ -79,7 +77,7 @@ def main():
     send_notification(f"🎯 Amass finished in {domain}. Found: {stats['amass']} subdomains.")
     print_ok(f"Amass: {stats['amass']} found.")
 
-    # Cleaning
+    # Cleaning & Deduplication
     print_step("Merging results and removing duplicates.")
     all_subs = set()
     for temp_file in [subfinder_out, assetfinder_out, findomain_out, amass_out]:
