@@ -2,6 +2,7 @@
 import os
 import subprocess
 import argparse
+import time
 from pathlib import Path
 
 # ── ANSI Colors ───────────────────────────────────────────────────────────────
@@ -32,6 +33,8 @@ def main():
     parser.add_argument("-d", "--domain", required=True, help="Target domain (e.g., testphp.vulnweb.com)")
     args = parser.parse_args()
     domain = args.domain
+
+    start_time = time.time()
 
     base_dir = Path(os.path.expanduser("~/bounty/targets")) / domain
     base_dir.mkdir(parents=True, exist_ok=True)
@@ -106,14 +109,21 @@ def main():
         stats['alive'] = 0
 
     print_ok(f"Subdomains assets (HTTP/HTTPS): {stats['alive']}")
-    send_notification(f"🚀 Recon completed in {domain}!\nAssets (httpx): {stats['alive']}/{stats['merged']}.")
+
+    end_time = time.time()
+    elapsed_seconds = int(end_time - start_time)
+    minutes, seconds = divmod(elapsed_seconds, 60)
+    hours, minutes = divmod(minutes, 60)
+    time_str = f"{hours}h {minutes}m {seconds}s" if hours > 0 else f"{minutes}m {seconds}s"
+    send_notification(
+        f"🚀 Recon completed in {domain}!\nAlive (httpx): {stats['alive']}/{stats['merged']}\n⏱️ Total time: {time_str}")
 
     # Clean up
     print_step("Clearing temporary files.")
     for temp_file in [subfinder_out, assetfinder_out, findomain_out, amass_out]:
         if temp_file.exists():
             temp_file.unlink()
-    print_ok("Temporary files removed. Keeping only the clean RAW file and the live HTTPX..")
+    print_ok("Temporary files removed. Keeping only the clean RAW file and the live HTTPX.")
 
     # Resume
     print(f"\n{G}{'─' * 46}{RST}")
@@ -124,8 +134,9 @@ def main():
     print(f"  Findomain:    {stats['findomain']}")
     print(f"  Amass:        {stats['amass']}")
     print(f"{Y}{'─' * 46}{RST}")
-    print(f" Total Unique: {C}{stats['merged']}{RST}")
-    print(f" Total Assets: {G}{stats['alive']}{RST} (httpx)")
+    print(f"  Total Unique: {C}{stats['merged']}{RST}")
+    print(f"  Total Assets: {G}{stats['alive']}{RST} (httpx)")
+    print(f"  Total Time:   {B}{time_str}{RST} ⏱️")
     print(f"{G}{'─' * 46}{RST}\n")
 
 
