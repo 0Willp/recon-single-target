@@ -33,6 +33,7 @@ This script assumes you have a professional Bug Bounty VPS structure. It will au
 
 Ensure the following tools are installed and available in your system's `$PATH`:
 
+* [Python 3.x](https://www.python.org/)
 * [Subfinder](https://github.com/projectdiscovery/subfinder)
 * [Assetfinder](https://github.com/tomnomnom/assetfinder)
 * [Findomain](https://github.com/Findomain/Findomain)
