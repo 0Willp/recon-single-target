@@ -19,7 +19,7 @@ A modular, automated, and silent subdomain enumeration pipeline designed to extr
 
 This script assumes you have a professional Bug Bounty VPS structure. It will automatically save the output to `~/bounty/targets/`:
 
-```text
+```bash
 ~/bounty/
 ├── targets/         <-- Script output goes here
 │   └── [example.com/](https://example.com/)
@@ -34,6 +34,7 @@ This script assumes you have a professional Bug Bounty VPS structure. It will au
 Ensure the following tools are installed and available in your system's `$PATH`:
 
 * [Python 3.x](https://www.python.org/)
+* `git` (native on Linux distributions)
 * [Subfinder](https://github.com/projectdiscovery/subfinder)
 * [Assetfinder](https://github.com/tomnomnom/assetfinder)
 * [Findomain](https://github.com/Findomain/Findomain)
@@ -43,10 +44,9 @@ Ensure the following tools are installed and available in your system's `$PATH`:
 
 ## 🚀 Usage
 Execute the script passing the argument -d, the domain to be enumerated:
-```text
+```bash
 python3 recon_single.py -d hackerone.com
 ```
-
 
 ## ⚖️ Legal Disclaimer
 This project is for educational and ethical security research purposes only. The author is not responsible for any misuse of the tools installed by this script. Only target systems within authorized scope.
