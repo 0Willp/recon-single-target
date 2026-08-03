@@ -1,37 +1,37 @@
-# 🎯 Recon Single Target Pipeline
+# 🎯 Script de Reconhecimento de um único alvo.
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)
 ![Bash](https://img.shields.io/badge/Shell-Automation-green.svg)
 ![Status](https://img.shields.io/badge/Status-Active-success.svg)
 
-A modular, automated, and silent subdomain enumeration pipeline designed to extract the maximum amount of domains for a **single target**, clean the noise, and probe for alive web servers.
+Um pipeline modular, automatizado e silencioso de enumeração de subdomínios, projetado para extrair o máximo de domínios de um **único alvo**, limpar o ruído e verificar a existência de servidores web ativos.
 
-## 🧠 Flow Methodology
+## 🧠 Metodologia do Fluxo
 
-1. **Subdomain Enumeration:** Fetches subdomains passively using `subfinder`, `assetfinder`, `findomain`, and `amass`.
-2. **Real-Time Alerts:** Sends a Slack/Discord notification (via ProjectDiscovery's `notify`) as soon as each tool finishes its job.
-3. **Data Sanitization:** Merges all outputs, removes duplicates, and filters out false positives to create a pristine `.txt` file.
-4. **Web Probing:** Pipes the clean list into `httpx` to verify active HTTP/HTTPS ports.
-5. **Clean up:** Automatically deletes tool-specific temporary files, leaving your workspace organized.
+1. **Enumeração de Subdomínios:** Obtém subdomínios de forma passiva utilizando `subfinder`, `assetfinder`, `findomain` e `amass`.
+2. **Alertas em Tempo Real:** Envia uma notificação via Slack/Discord (utilizando o `notify` da ProjectDiscovery) assim que cada ferramenta conclui sua tarefa.
+3. **Higienização de Dados:** Consolida todas as saídas, remove duplicatas e filtra falsos positivos para gerar um arquivo `.txt` limpo e organizado.
+4. **Web Probing:** Direciona a lista limpa para o `httpx` a fim de verificar portas HTTP/HTTPS ativas.
+5. **Limpeza:** Exclui automaticamente arquivos temporários específicos das ferramentas, mantendo seu ambiente de trabalho organizado.
 
 
-## 📂 Directory Structure
+## 📂 Estrutura de Diretórios
 
-This script assumes you have a professional Bug Bounty VPS structure. It will automatically save the output to `~/bounty/targets/`:
+Este script pressupõe que você possua uma estrutura profissional de VPS para Bug Bounty. Ele salvará automaticamente a saída em `~/bounty/targets/`:
 
 ```bash
 ~/bounty/
-├── targets/         <-- Script output goes here
-│   └── [example.com/](https://example.com/)
+├── targets/         <-- Saída do script
+│   └── [example.com/](https://exemplo.com/)
 │       ├── 01_all_subs_merged.txt
 │       └── 02_alive_httpx.txt
 ├── tools/           
 └── wordlists/
 ```
 
-## 🛠️ Prerequisites
+## 🛠️ Pré-requisitos
 
-Ensure the following tools are installed and available in your system's `$PATH`:
+Certifique-se de que as seguintes ferramentas estejam instaladas e disponíveis no `$PATH` do seu sistema:
 
 * [Python 3.x](https://www.python.org/)
 * `git` (native on Linux distributions)
@@ -43,14 +43,18 @@ Ensure the following tools are installed and available in your system's `$PATH`:
 * [Notify](https://github.com/projectdiscovery/notify) 
 
 ## 🚀 Usage
-Execute the script passing the argument -d, the domain to be enumerated:
+Execute o script passando o argumento -d, o domínio a ser enumerado:
 ```bash
 python3 recon_single.py -d hackerone.com
 ```
 
-## ⚖️ Legal Disclaimer
-This project is for educational and ethical security research purposes only. The author is not responsible for any misuse of the tools installed by this script. Only target systems within authorized scope.
+## 🐼 Mentalidade
+"Ferramentas não encontram bugs; pesquisadores, sim. As ferramentas apenas tornam o palheiro menor."
 
-Developed by 0WILLP 🐼 | Lifting code & Finding bugs
+## ⚖️ Aviso Legal
+Este projeto destina-se exclusivamente a fins educacionais e de pesquisa ética em segurança. O autor não se responsabiliza por qualquer uso indevido das ferramentas instaladas por este script. Realize testes apenas em sistemas dentro do escopo autorizado.
+
+Desenvolvido por 0WILLP 
+🐼 | Escrevendo código e encontrando bugs.
 
 
