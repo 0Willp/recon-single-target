@@ -1,4 +1,4 @@
-# 🎯 Script de Reconhecimento de um único alvo.
+# 🎯 Script de Reconhecimento de um único subdominio.
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)
 ![Bash](https://img.shields.io/badge/Shell-Automation-green.svg)
