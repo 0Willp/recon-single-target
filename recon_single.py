@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import os
+import shutil
 import subprocess
 import argparse
 import time
@@ -21,18 +22,39 @@ def count_lines(filepath: Path) -> int:
     if not filepath.exists():
         return 0
     with open(filepath, 'r', errors='ignore') as f:
-        return sum(1 for _ in f)
+        return sum(1 for line in f if line.strip())
+
+
+def preflight():
+    """Ferramenta faltando != alvo limpo: avisa sobre o que estiver ausente
+    no PATH para que um 0 silencioso nao seja confundido com 'sem resultados'."""
+    required = ["subfinder", "assetfinder", "findomain", "amass", "httpx"]
+    missing = [t for t in required if shutil.which(t) is None]
+    for t in missing:
+        print_warn(f"'{t}' nao encontrado no PATH - o passo correspondente reportara 0.")
+    if shutil.which("notify") is None:
+        print_warn("'notify' nao encontrado - alertas em tempo real serao ignorados.")
+    return missing
 
 
 def send_notification(msg: str):
-    subprocess.run(f'echo "{msg}" | notify -silent', shell=True)
+    """Envia via notify (ProjectDiscovery). Passa a mensagem por stdin em vez
+    de interpolar num echo com shell=True, evitando quebra/injecao de shell.
+    Nunca levanta excecao: uma notificacao falha nao pode derrubar o recon."""
+    if shutil.which("notify") is None:
+        return
+    try:
+        subprocess.run(["notify", "-silent"], input=msg, text=True,
+                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=60)
+    except Exception:
+        pass
 
 
 def main():
     parser = argparse.ArgumentParser(description="Single Target Recon")
     parser.add_argument("-d", "--domain", required=True, help="Target domain (e.g., testphp.vulnweb.com)")
     args = parser.parse_args()
-    domain = args.domain
+    domain = args.domain.strip().lower()
 
     start_time = time.time()
 
@@ -41,6 +63,7 @@ def main():
 
     print(f"\n{G}[+]{RST} Starting enumeration for: {domain}")
     print(f"{G}[+]{RST} Output directory: {base_dir}")
+    preflight()
 
     subfinder_out = base_dir / "temp_subfinder.txt"
     assetfinder_out = base_dir / "temp_assetfinder.txt"
@@ -88,7 +111,7 @@ def main():
             with open(temp_file, 'r', errors='ignore') as f:
                 for line in f:
                     sub = line.strip().lower()
-                    if sub.endswith(domain):
+                    if sub == domain or sub.endswith("." + domain):
                         all_subs.add(sub)
 
     # Saving clean file
